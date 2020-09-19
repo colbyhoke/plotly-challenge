@@ -13,7 +13,7 @@ Source: http://robdunnlab.com/projects/belly-button-biodiversity/
 * Update all of the plots any time that a new sample is selected.
 
 #### Dashboard:
-https://github.com/colbyhoke/plotly-challenge
+https://colbyhoke.github.io/plotly-challenge/
 
 #### Preview:
 ![screenshot](screenshot/screenshot.jpg)
