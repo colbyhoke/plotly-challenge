@@ -5,7 +5,7 @@ const dropdown = d3.select("#selDataSet"); // Grab the dropdown html element
  * Initial state.
  */
 function init(){
-    d3.json("../../data/samples.json").then(function(data) {
+    d3.json("data/samples.json").then(function(data) {
         data.names.forEach((name) => { // Go through each name in samples.json
             dropdown.append("option").text(name).property("value"); // Add each value to the dropdown in ../../index.html
         });
