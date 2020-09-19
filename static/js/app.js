@@ -31,7 +31,7 @@ function optionChanged(selectedSubject) {
  * @param {string} subjectID 
  */
 function fillInfo(subjectID) {
-    d3.json("../../data/samples.json").then((data) => {
+    d3.json("data/samples.json").then((data) => {
         
         var metadataField = d3.select("#sample-metadata");
 
@@ -56,7 +56,7 @@ function fillInfo(subjectID) {
  * @param {string} subjectID
  */
 function makeBarBubblePlots(subjectID){
-    d3.json("../../data/samples.json").then((data) => {
+    d3.json("data/samples.json").then((data) => {
 
         console.log(subjectID);
 
@@ -131,7 +131,7 @@ function makeBarBubblePlots(subjectID){
  * @param {string} subjectID 
  */
 function makeGaugePlot(subjectID){
-    d3.json("../../data/samples.json").then((data) => {
+    d3.json("data/samples.json").then((data) => {
         var gaugeSample = data.metadata.filter(s => s.id.toString() === subjectID)[0]; // Filter by selected subject ID
         var washFreqValue = gaugeSample.wfreq; // Get the wash frequency
         
