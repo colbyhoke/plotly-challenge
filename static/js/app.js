@@ -13,7 +13,8 @@ function init(){
 };
 
 /**
- * Build out dashboard when subject is selected.
+ * Build dashboard when subject is selected.
+ * Calls the functions to build the various parts of the dashboard and passes the selected ID to them.
  * 
  * @param {string} selectedSubject
  */
@@ -33,13 +34,13 @@ function optionChanged(selectedSubject) {
 function fillInfo(subjectID) {
     d3.json("data/samples.json").then((data) => {
         
-        var metadataField = d3.select("#sample-metadata");
+        const metadataField = d3.select("#sample-metadata"); // Where the info will be filled on index.html
 
-        var subjectData = data.metadata.filter(s => s.id.toString() === subjectID)[0];
+        var subjectData = data.metadata.filter(s => s.id.toString() === subjectID)[0]; // Filter by selected ID
         
-        metadataField.html(""); // Clear out before populating with new info
+        metadataField.html(""); // Clear out html before populating with new info
 
-        Object.entries(subjectData).forEach((key) => {
+        Object.entries(subjectData).forEach((key) => { // Iterate through the filtered data
             if (key[1] == null){ // Check for nulls
                 metadataField.append("p").text(key[0] + ": No data" + "\n"); // Print "no data" for null values
             }
@@ -58,15 +59,17 @@ function fillInfo(subjectID) {
 function makeBarBubblePlots(subjectID){
     d3.json("data/samples.json").then((data) => {
 
-        console.log(subjectID);
+        console.log(subjectID); // Confirm selection
 
         // Set variable to be used by all charts
-        var sample = data.samples.filter(s => s.id.toString() === subjectID)[0]; // Comment
+        var sample = data.samples.filter(s => s.id.toString() === subjectID)[0]; // Filter by selected ID
 
-        var otuValues = sample.sample_values; // For both charts, used explicitly by bubble chart
+        // Gather data from json file
+        var otuValues = sample.sample_values; // For both charts, but used explicitly by bubble chart
         var otuIDs = sample.otu_ids; // For both charts, used explicitly by bubble chart
         var otuLabels = sample.otu_labels; // For both charts, used explicitly by bubble chart
 
+        // Need to slice the values above to limit to 10 items
         var otuValuesTop10 = otuValues.slice(0,10).reverse(); // For bar chart
         var otuIDsTop10 = otuIDs.slice(0,10).reverse().map(id => "OTU: " + id + " "); // Show IDs on the side and give them room
         var otuLabelsTop10 = otuLabels.slice(0,10); // Grab the name of the OTU
@@ -132,7 +135,7 @@ function makeBarBubblePlots(subjectID){
  */
 function makeGaugePlot(subjectID){
     d3.json("data/samples.json").then((data) => {
-        var gaugeSample = data.metadata.filter(s => s.id.toString() === subjectID)[0]; // Filter by selected subject ID
+        var gaugeSample = data.metadata.filter(s => s.id.toString() === subjectID)[0]; // Filter by selected ID
         var washFreqValue = gaugeSample.wfreq; // Get the wash frequency
         
         console.log(washFreqValue);
@@ -169,7 +172,7 @@ function makeGaugePlot(subjectID){
                     { range: [7, 8], color: "rgb(147, 186, 145)" },
                     { range: [8, 9], color: "rgb(142, 179, 140)" }
                 ],
-                threshold : { // Use a threshold indicator to "cap" the bar drawn 
+                threshold : { // Use a red threshold indicator to "cap" the bar drawn for better visibility
                     line: {
                         color: "red",
                         width: 4
@@ -180,7 +183,6 @@ function makeGaugePlot(subjectID){
             }
         };
 
-        // 
         var data3 = [trace3];
 
         // Build the plot's layout
